@@ -1,0 +1,63 @@
+# --- HGCN-QMIX specific parameters ---
+
+# use epsilon greedy action selector
+action_selector: "epsilon_greedy"
+epsilon_start: 1.0
+epsilon_finish: 0.05
+epsilon_anneal_time: 100000
+
+# 优化器
+optim_beta1: 0.9  # AdamW 的一阶动量系数
+optim_beta2: 0.999  # AdamW 的二阶动量系数
+optim_eps: 1e-8  # 数值稳定性的小量
+weight_decay: 0.01  # 权重衰减
+
+#runner: "parallel"
+batch_size_run: 1 # Number of environments to run in parallel
+runner: "episode"# Runs 1 env for an episode
+
+mac: "hygma_mac"
+
+batch_size: 128 # Number of episodes to train on
+buffer_size: 5000 # Size of the replay buffer
+
+# update the target network every {} episodes
+target_update_interval: 200
+
+# use the Q_Learner to train
+agent_output_type: "q"
+learner: "hgcn_learner"
+double_q: True
+mixer: "qmix"
+mixing_embed_dim: 32
+hypernet_layers: 2
+hypernet_embed: 64
+
+# 聚类相关配置
+clustering_interval: 100000  # 时间步检查一次聚类
+state_history_length: 5000  # 用于聚类的状态历史长度
+behavior_history_length: 5000  # 用于聚类的行为历史长度
+stability_threshold: 0.6  # 如果少于40%的智能体需要移动，则保持原有分组
+min_clusters: 2
+max_clusters: 3
+
+# 固定分组
+fix_grouping_steps: 2
+fix_hgcn_steps: 2
+
+# HGCN相关配置
+hgcn_in_dim: 96
+#hidden_dim_scale: 1.0
+hgcn_out_dim: 48
+hgcn_hidden_dim: 64
+hgcn_num_layers: 2
+
+#init_agent_groups: [[0, 1, 2, 3, 4]]
+
+# loss 超参数
+lambda_consistency: 0.001
+lambda_attention: 0.01
+
+name: "hygma"
+
+
